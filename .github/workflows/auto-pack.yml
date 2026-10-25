@@ -14,8 +14,10 @@ jobs:
 
       - name: Create ZIP Archive
         run: |
-          # Pack only STL catalogs: exclude system folders, readme and top banner image
-          zip -r archive.zip . -x "*.github*" "-x .git*" "README.md" "Tessera Title.png"
+          # Completely remove GitHub internal hidden folders before packing
+          rm -rf .git .github
+          # Pack only your STL folders
+          zip -r archive.zip . -x "README.md" "Tessera Title.png"
 
       - name: Update Latest Release
         uses: softprops/action-gh-release@v2
