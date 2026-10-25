@@ -1,0 +1,28 @@
+name: Auto Pack Archive
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create ZIP Archive
+        run: |
+          # Pack only STL catalogs: exclude system folders, readme and top banner image
+          zip -r archive.zip . -x "*.github*" "-x .git*" "README.md" "Tessera Title.png"
+
+      - name: Update Latest Release
+        uses: pyTooling/Actions/releaser@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
+          name: "Latest Version"
+          body: "The archive is updated automatically whenever new files are added."
+          files: |
+            archive.zip
