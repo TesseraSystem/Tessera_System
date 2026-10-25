@@ -1,4 +1,5 @@
 # Tessera System
+![Tessera System](Tessera%20Title.png)
 
 Tessera System is a modular storage ecosystem optimized for 3D printing. It is specifically designed for organizing and storing components used in maker workshops and creative spaces.
 
