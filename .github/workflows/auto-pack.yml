@@ -14,16 +14,20 @@ jobs:
 
       - name: Create ZIP Archive
         run: |
-          # Completely remove GitHub internal hidden folders before packing
           rm -rf .git .github
-          # Pack only your STL folders
           zip -r archive.zip . -x "README.md" "Tessera Title.png"
+
+      - name: Generate Version Tag
+        id: version
+        run: |
+          # Создает тег на основе даты и времени, например: v2026.10.25-1915
+          echo "tag=v$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_OUTPUT
 
       - name: Update Latest Release
         uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: latest
-          name: "Latest Version"
-          body: "The archive is updated automatically whenever new files are added."
+          name: "Latest Version (${{ steps.version.outputs.tag }})"
+          body: "The archive is updated automatically. Current build: ${{ steps.version.outputs.tag }}"
           files: archive.zip
