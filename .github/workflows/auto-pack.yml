@@ -18,11 +18,10 @@ jobs:
           zip -r archive.zip . -x "*.github*" "-x .git*" "README.md" "Tessera Title.png"
 
       - name: Update Latest Release
-        uses: pyTooling/Actions/releaser@main
+        uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: latest
+          tag_name: latest
           name: "Latest Version"
           body: "The archive is updated automatically whenever new files are added."
-          files: |
-            archive.zip
+          files: archive.zip
